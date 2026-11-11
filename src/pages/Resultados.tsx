@@ -93,7 +93,7 @@ export function Resultados() {
               {bloque('Teoría', Math.round(cal.teoria), PUNTOS.teoria, 'bg-amber-400')}
               <div className="rounded-xl border border-rose-400/30 bg-rose-500/5 p-3">
                 <p className="text-[11px] uppercase tracking-wider text-tenue">Errores</p>
-                <p className="mt-1 text-xl font-semibold tabular-nums text-rose-200">−{cal.penalizacion}</p>
+                <p className="mt-1 text-xl font-semibold tabular-nums text-rose-200">{cal.penalizacion ? `−${cal.penalizacion}` : 0}</p>
                 <p className="text-[11px] text-tenue">{cal.errores.length} registrados</p>
               </div>
             </div>

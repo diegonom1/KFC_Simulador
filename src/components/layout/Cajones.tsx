@@ -39,6 +39,7 @@ function FilaLibreta({ id }: { id: EquipoId }) {
         <span className="w-28 shrink-0 text-[13px] font-semibold text-slate-700">{equiposRed[id].corto}</span>
         <input
           data-guide={`libreta-${id}`}
+          data-pista={guiado ? `IP actual de ${equiposRed[id].corto}: ${DONDE[id]}` : undefined}
           value={v}
           onChange={(e) => setV(e.target.value)}
           onBlur={guardar}

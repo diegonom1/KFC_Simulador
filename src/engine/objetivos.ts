@@ -128,7 +128,13 @@ export const OBJETIVOS: Objetivo[] = [
     fase: 2,
     equipos: [],
     valida: (s) => equiposConRespaldo.every((id) => normalizarIp(s.libreta[id] ?? '') === s.esc.ipVieja[id]),
-    guia: () => ['libreta-btn', 'libreta-btn-mision', 'libreta-btn-movil'],
+    // Con la libreta abierta, el anillo señala el siguiente equipo que falta (con la pista de dónde ver su IP).
+    guia: (s) => [
+      ...equiposConRespaldo.filter((id) => normalizarIp(s.libreta[id] ?? '') !== s.esc.ipVieja[id]).map((id) => `libreta-${id}`),
+      'libreta-btn',
+      'libreta-btn-mision',
+      'libreta-btn-movil',
+    ],
     progreso: (s) => ({
       hechos: equiposConRespaldo.filter((id) => normalizarIp(s.libreta[id] ?? '') === s.esc.ipVieja[id]).length,
       total: equiposConRespaldo.length,

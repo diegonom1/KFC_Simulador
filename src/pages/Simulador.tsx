@@ -209,6 +209,9 @@ function SimuladorActivo() {
               <div className="flex min-h-0 flex-1 items-center justify-center p-2">
                 <Escena s={s} onAbrir={abrir} />
               </div>
+              <div className="scroll-fino max-h-[46%] overflow-y-auto px-3 pb-3 md:hidden">
+                <MiniMapa />
+              </div>
             </div>
             <AnimatePresence>
               {p && primaria && (

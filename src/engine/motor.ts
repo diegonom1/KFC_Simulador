@@ -10,7 +10,7 @@ import { confFingerprint, confTimer, validarConf } from './linux/conf'
 import { aplicarArranque, estadoCocina, ipDeStanza, parsearInterfaces, validarEth0 } from './linux/interfaces'
 import { archivosIniciales } from './linux/vfs'
 import { cfgIgual, modemPrincipal, objetivosAplicables, progresoFase } from './objetivos'
-import { enlaces, hayEth1 } from './red'
+import { enlaces, hayEth1, nodos } from './red'
 import type { Accion, EquipoId, Escenario, HostLinux, LinuxEstado, NetCfg, PuertoId, RegistroError, SimState } from './tipos'
 
 export const VERSION_ESTADO = 3
@@ -309,8 +309,9 @@ function aplicar(n: SimState, a: Accion) {
       const l = n.laptop
       if (a.cfg.modo === 'estatica' || a.cfg.ip !== undefined) {
         if (l.modo === 'estatica' && l.ip) {
-          const usadas = [...Object.values(n.disp).map((d) => d.activa.ip), ...Object.values(esc.ipVieja), esc.viejo.gateway]
-          if (usadas.includes(l.ip)) error(n, 'IP_DUPLICADA', { equipo: 'laptop', extra: `La IP ${l.ip} ya la usa otro equipo.`, unaVez: `DUP:${l.ip}` })
+          // Repetida = la usa algún equipo que existe ahora mismo en la red (equipos, PCs, gateways, módems, cocina).
+          const duenio = nodos(n).find((nd) => nd.id !== 'laptop' && nd.ip === l.ip)
+          if (duenio) error(n, 'IP_DUPLICADA', { equipo: 'laptop', extra: `La IP ${l.ip} ya la usa ${duenio.nombre}.`, unaVez: `DUP:${l.ip}` })
           else if (!n.completados['laptop-ip'] && esc.modo === 'guiado') {
             const base = esc.viejo.red.split('.').slice(0, 3).join('.')
             if (!l.ip.startsWith(base + '.') || l.mascara !== esc.viejo.mascara) {

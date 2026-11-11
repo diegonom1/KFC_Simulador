@@ -315,12 +315,12 @@ export function Escena({ s, onAbrir, decorativa = false, className }: { s?: SimS
             <span
               className={cx(
                 'relative grid place-items-center rounded-xl ring-2 backdrop-blur transition-colors',
-                m.id === 'rack' ? 'size-11' : 'size-9',
+                dim.w < 560 ? (m.id === 'rack' ? 'size-8' : 'size-7') : m.id === 'rack' ? 'size-11' : 'size-9',
                 COLOR[e].anillo,
                 'group-focus-visible:outline-2 group-focus-visible:outline-cyan-300',
               )}
             >
-              <Icono size={m.id === 'rack' ? 22 : 18} strokeWidth={1.9} />
+              <Icono size={dim.w < 560 ? 14 : m.id === 'rack' ? 22 : 18} strokeWidth={1.9} />
               {rein && (
                 <span className="absolute -right-1.5 -top-1.5 grid size-4 place-items-center rounded-full bg-amber-400 text-slate-900">
                   <LoaderCircle size={11} className="animate-spin" />
